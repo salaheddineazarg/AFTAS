@@ -17,7 +17,7 @@ import java.util.List;
 public class Competition {
     @Id
     @NotBlank(message = "Code must not be blank")
-    @Pattern(regexp = "^.{3}\\s\\d{4}-\\d{2}-\\d{2}$")
+    @Pattern(regexp = "^.{3}-\\d{6}$")
     private String code;
 
     @NotNull(message = "Date must not be null")
