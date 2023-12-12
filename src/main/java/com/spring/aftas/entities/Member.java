@@ -32,7 +32,6 @@ public class Member {
     private String familyName;
 
     @NotNull(message = "Accession date must be provided")
-    @Past(message = "Accession date must be in the past")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private LocalDate accessionDate;
@@ -42,12 +41,12 @@ public class Member {
     @Column(nullable = false)
     private String nationality;
 
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private IdentityDocType identityDocumentType;
 
     @NotBlank(message = "Identity number must not be blank")
     @Pattern(regexp = "[A-Za-z0-9]+", message = "Identity number must contain only letters and numbers")
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String identityNumber;
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade =CascadeType.ALL)
