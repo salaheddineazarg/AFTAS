@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member,Long> {
 
-    List<Member>  findMemberByName(String name);
-    List<Member> findMemberByFamilyName(String familyName);
+    List<Member>  findMemberByFamilyName(String familyName);
+    List<Member> findMemberByName(String name);
+    boolean existsMemberByName(String name);
+    boolean existsMemberByFamilyName(String familyName);
+    boolean existsMemberByIdentityNumber(String identityNumber);
 
 }

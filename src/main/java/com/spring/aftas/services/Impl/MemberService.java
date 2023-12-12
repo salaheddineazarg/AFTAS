@@ -2,12 +2,14 @@ package com.spring.aftas.services.Impl;
 
 import com.spring.aftas.dto.member.MemberDTO;
 import com.spring.aftas.dto.member.MemberResponseDTO;
+import com.spring.aftas.entities.Member;
 import com.spring.aftas.repositories.MemberRepository;
 import com.spring.aftas.services.interfaces.IMemberService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,36 +31,58 @@ public class MemberService implements IMemberService {
 
     @Override
     public List<MemberResponseDTO> getAllService() {
-        return null;
+
+        return Arrays.asList(modelMapper.map(this.memberRepository.findAll(), MemberResponseDTO.class));
     }
 
     @Override
     public Optional<MemberResponseDTO> saveService(MemberDTO memberDTO) {
-        return Optional.empty();
+        if (this.memberRepository.existsMemberByIdentityNumber(memberDTO.getIdentityNumber())){
+            return Optional.empty();
+        }else {
+            Member member = modelMapper.map(memberDTO,Member.class);
+            member = this.memberRepository.save(member);
+            System.out.println(member);
+            return Optional.of(modelMapper.map(member, MemberResponseDTO.class));
+        }
     }
 
     @Override
     public boolean deleteService(Long Id) {
+        if (this.memberRepository.existsById(Id)){
+            this.memberRepository.deleteById(Id);
+            return true;
+        }
         return false;
     }
 
     @Override
     public Optional<MemberResponseDTO> updateService(MemberDTO memberDTO, Long Id) {
+        if (this.memberRepository.existsById(Id)){
+            Member member = modelMapper.map(memberDTO, Member.class);
+            member.setNum(Id);
+            member = this.memberRepository.save(member);
+            return Optional.ofNullable(modelMapper.map(member, MemberResponseDTO.class));
+        }
         return Optional.empty();
     }
 
     @Override
     public Optional<MemberResponseDTO> findByIdService(Long Id) {
+        if (this.memberRepository.existsById(Id)){
+        Optional<Member> memberOptional = this.memberRepository.findById(Id);
+        return memberOptional.map(member -> modelMapper.map(member,MemberResponseDTO.class));
+        }
         return Optional.empty();
     }
 
     @Override
-    public List<MemberResponseDTO> findByName(String name) {
-        return null;
-    }
-
-    @Override
-    public List<MemberResponseDTO> findByFamilyName(String familyName) {
+    public List<MemberResponseDTO> findByFamilyNameOrName(String word) {
+        if (this.memberRepository.existsMemberByName(word)){
+            return Arrays.asList(modelMapper.map(this.memberRepository.findMemberByName(word),MemberResponseDTO[].class));
+        }else if (this.memberRepository.existsMemberByFamilyName(word)){
+            return Arrays.asList(modelMapper.map(this.memberRepository.findMemberByFamilyName(word),MemberResponseDTO[].class));
+        }
         return null;
     }
 }

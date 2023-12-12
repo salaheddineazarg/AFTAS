@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class Level {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long code;
 
     @NotBlank(message = "Description must not be blank")
