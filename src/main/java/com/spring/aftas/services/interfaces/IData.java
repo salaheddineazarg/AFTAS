@@ -16,4 +16,5 @@ public interface IData<Response,Request,type> {
     Optional<Response> findByIdService(type Id);
 
 
+
 }

@@ -5,4 +5,6 @@ import com.spring.aftas.entities.Rank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RankRepository extends JpaRepository<Rank, RankID> {
+
+    long countByRankID(RankID rankID);
 }

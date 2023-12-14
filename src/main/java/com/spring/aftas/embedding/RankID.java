@@ -22,8 +22,8 @@ public class RankID implements Serializable {
 
 
     @Column(nullable = false)
-    public int member_id;
+    public long member_num;
 
     @Column(nullable = false)
-    public String competition_id;
+    public String competition_code;
 }

@@ -13,15 +13,14 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Hunting {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Min(value = 1, message = "Number of fish must be at least 1")
     @Positive(message = "Number of fish must be a positive number")
-    @Column(nullable = false,columnDefinition = "1")
-    private int numberOfFish;
+    @Column(nullable = false)
+    private int numberOfFish =1;
 
     @NotNull(message = "Fish must be provided")
     @ManyToOne
