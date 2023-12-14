@@ -27,12 +27,12 @@ public class Rank {
     private int score;
 
     @ManyToOne
-    @MapsId("competition_id")
+    @MapsId("competition_code")
     @NotNull(message = "Competition must be provided")
     private Competition competition;
 
     @ManyToOne
-    @MapsId("member_id")
+    @MapsId("member_num")
     @NotNull(message = "Member must be provided")
     private Member member;
 
