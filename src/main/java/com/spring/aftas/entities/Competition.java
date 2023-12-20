@@ -49,9 +49,9 @@ public class Competition {
     @Column(nullable = false)
     private double amount;
 
-    @OneToMany(mappedBy = "competition",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "competition",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Hunting> huntings;
 
-    @OneToMany(mappedBy = "competition",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "competition",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Rank> ranks;
 }

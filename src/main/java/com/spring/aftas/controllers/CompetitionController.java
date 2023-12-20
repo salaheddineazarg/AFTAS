@@ -65,7 +65,7 @@ public class CompetitionController {
     public ResponseEntity<CompetitionResponseDTO> getBycode(@Size(min = 10) @PathVariable String code){
 
         return this.competitionService.findByIdService(code)
-                .map(competition -> new ResponseEntity<>(competition,HttpStatus.FOUND))
+                .map(competition -> new ResponseEntity<>(competition,HttpStatus.OK))
                 .orElse(new ResponseEntity<>(null,HttpStatus.NOT_FOUND));
 
     }

@@ -9,7 +9,6 @@ import com.spring.aftas.repositories.CompetitionRepository;
 import com.spring.aftas.repositories.MemberRepository;
 import com.spring.aftas.repositories.RankRepository;
 import com.spring.aftas.services.interfaces.IRankService;
-import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -122,5 +121,11 @@ public class RankService implements IRankService {
             return rankOptional.map(rank ->  modelMapper.map(rank,RankResponseDTO.class));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<RankResponseDTO> getByCompetition(String code) {
+
+        return Arrays.asList(modelMapper.map(this.rankRepository.findRankByCompetition_Code(code),RankResponseDTO[].class));
     }
 }

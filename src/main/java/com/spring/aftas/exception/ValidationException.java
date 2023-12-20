@@ -1,6 +1,7 @@
 package com.spring.aftas.exception;
 
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,4 +33,6 @@ public class ValidationException {
         errors.put("error", ex.getMessage());
         return errors;
     }
+
+
 }

@@ -14,4 +14,6 @@ public interface IRankService {
     Optional<RankResponseDTO> findByIdService(String code ,long num);
     boolean deleteService(String code, long num);
     Optional<RankResponseDTO> updateService(RankDTO rankDTO,String code,long num);
+
+    List<RankResponseDTO> getByCompetition(String code);
 }

@@ -29,6 +29,6 @@ public class Fish {
     @ManyToOne
     private Level level;
 
-    @OneToMany(mappedBy = "fish",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "fish",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Hunting> huntings;
 }

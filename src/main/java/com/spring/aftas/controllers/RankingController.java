@@ -72,4 +72,11 @@ public class RankingController {
                 .orElse(new ResponseEntity<>(null,HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("competition")
+    public ResponseEntity<List<RankResponseDTO>> getByCompetition(@RequestParam String code){
+
+        return new ResponseEntity<>(this.rankService.getByCompetition(code),HttpStatus.OK);
+    }
+
+
 }

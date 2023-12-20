@@ -49,9 +49,9 @@ public class Member {
     @Column(nullable = false,unique = true)
     private String identityNumber;
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade =CascadeType.ALL,orphanRemoval = true)
     private List<Hunting> huntings;
 
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Rank> ranks;
 }

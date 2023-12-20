@@ -32,7 +32,7 @@ public class MemberService implements IMemberService {
     @Override
     public List<MemberResponseDTO> getAllService() {
 
-        return Arrays.asList(modelMapper.map(this.memberRepository.findAll(), MemberResponseDTO.class));
+        return Arrays.asList(modelMapper.map(this.memberRepository.findAll(), MemberResponseDTO[].class));
     }
 
     @Override
