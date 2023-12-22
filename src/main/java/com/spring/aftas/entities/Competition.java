@@ -23,6 +23,7 @@ public class Competition {
     @NotNull(message = "Date must not be null")
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
+    @Future(message = "The competition must be in future")
     private LocalDate date;
 
     @NotNull(message = "Start time must not be null")
@@ -54,4 +55,7 @@ public class Competition {
 
     @OneToMany(mappedBy = "competition",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Rank> ranks;
+
+    public Competition(String s, LocalDate of, LocalTime of1, LocalTime of2, int i, String hoceima, double v) {
+    }
 }

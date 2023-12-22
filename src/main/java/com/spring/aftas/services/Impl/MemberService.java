@@ -77,12 +77,8 @@ public class MemberService implements IMemberService {
     }
 
     @Override
-    public List<MemberResponseDTO> findByFamilyNameOrName(String word) {
-        if (this.memberRepository.existsMemberByName(word)){
-            return Arrays.asList(modelMapper.map(this.memberRepository.findMemberByName(word),MemberResponseDTO[].class));
-        }else if (this.memberRepository.existsMemberByFamilyName(word)){
-            return Arrays.asList(modelMapper.map(this.memberRepository.findMemberByFamilyName(word),MemberResponseDTO[].class));
-        }
-        return null;
+    public List<MemberResponseDTO> findByFamilyNameOrName(String keyword) {
+
+        return Arrays.asList(modelMapper.map(this.memberRepository.findByNameOrFamilyName(keyword),MemberResponseDTO[].class));
     }
 }

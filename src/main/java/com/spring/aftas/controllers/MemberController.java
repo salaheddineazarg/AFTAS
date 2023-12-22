@@ -69,8 +69,8 @@ public class MemberController {
                 .orElse(new ResponseEntity<>(null,HttpStatus.NOT_FOUND));
     }
     @GetMapping("/search")
-    public ResponseEntity<List<MemberResponseDTO>> getByFamilyNameOrNameOrNum(@RequestParam(required = false) String word) {
-        return new ResponseEntity<>(this.memberService.findByFamilyNameOrName(word), HttpStatus.OK);
+    public ResponseEntity<List<MemberResponseDTO>> getByFamilyNameOrNameOrNum(@RequestParam String keyword) {
+        return new ResponseEntity<>(this.memberService.findByFamilyNameOrName(keyword),HttpStatus.OK);
     }
 
 

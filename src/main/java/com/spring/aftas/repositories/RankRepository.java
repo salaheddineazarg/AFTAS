@@ -9,6 +9,9 @@ import java.util.Optional;
 
 public interface RankRepository extends JpaRepository<Rank, RankID> {
 
-    long countByRankID(RankID rankID);
+    long countByCompetition_Code(String code);
     List<Rank> findRankByCompetition_Code(String code);
+    Optional<Rank> findRankByMember_NumAndCompetition_Code(long num,String code);
+    List<Rank> findAllByCompetition_CodeOrderByScoreDesc(String code);
+
 }

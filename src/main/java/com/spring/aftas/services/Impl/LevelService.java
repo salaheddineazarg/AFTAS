@@ -37,9 +37,13 @@ public class LevelService  implements ILevelService {
     @Override
     public Optional<LevelDTO> saveService(LevelDTO levelDTO) {
         Level level = modelMapper.map(levelDTO,Level.class);
-        level = this.levelRepository.save(level);
+        List<Level> levels = levelRepository.findAllByPointsGreaterThanEqual(level.getPoints());
+        if(levels.isEmpty()){
+            level = this.levelRepository.save(level);
+            return Optional.ofNullable(modelMapper.map(level,LevelDTO.class));
+        }
+        return Optional.empty();
 
-        return Optional.ofNullable(modelMapper.map(level,LevelDTO.class));
     }
 
     @Override

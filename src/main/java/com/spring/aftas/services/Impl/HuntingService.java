@@ -2,11 +2,10 @@ package com.spring.aftas.services.Impl;
 
 import com.spring.aftas.dto.hunting.HuntingDTO;
 import com.spring.aftas.dto.hunting.HuntingResponseDTO;
+import com.spring.aftas.entities.Fish;
 import com.spring.aftas.entities.Hunting;
-import com.spring.aftas.repositories.CompetitionRepository;
-import com.spring.aftas.repositories.FishRepository;
-import com.spring.aftas.repositories.HuntingRepository;
-import com.spring.aftas.repositories.MemberRepository;
+import com.spring.aftas.entities.Rank;
+import com.spring.aftas.repositories.*;
 import com.spring.aftas.services.interfaces.IHuntingService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,15 @@ public class HuntingService implements IHuntingService {
     private final CompetitionRepository competitionRepository;
     private final MemberRepository memberRepository;
     private  final FishRepository fishRepository;
-
+    private final RankService rankService;
 
     @Autowired
     public HuntingService(ModelMapper modelMapper,
                           HuntingRepository huntingRepository,
                           CompetitionRepository competitionRepository,
                           MemberRepository memberRepository,
-                          FishRepository fishRepository
+                          FishRepository fishRepository,
+                          RankService rankService
     ){
 
         this.huntingRepository = huntingRepository;
@@ -41,6 +41,7 @@ public class HuntingService implements IHuntingService {
         this.competitionRepository =competitionRepository;
         this.memberRepository=memberRepository;
         this.fishRepository =fishRepository;
+        this.rankService = rankService;
     }
 
     @Override
@@ -52,38 +53,54 @@ public class HuntingService implements IHuntingService {
     @Override
     public Optional<HuntingResponseDTO> saveService(HuntingDTO huntingDTO) {
 
-        Hunting hunting = modelMapper.map(huntingDTO, Hunting.class);
-        if (this.huntingRepository.existsHuntingByCompetition_CodeAndMember_NumAndFish_Name(
-                huntingDTO.getCompetition_code(),
-                huntingDTO.getMember_num(),
-                huntingDTO.getFish_name()))
-        {
-            hunting.setNumberOfFish(hunting.getNumberOfFish()+1);
+
+        Optional<Hunting> huntingOptional = this.huntingRepository
+                .findHuntingByCompetition_CodeAndMember_NumAndFish_Name(
+                        huntingDTO.getCompetition_code(),
+                        huntingDTO.getMember_num(),
+                        huntingDTO.getFish_name()
+                );
+        if (huntingOptional.isPresent()) {
+           Hunting hunting = huntingOptional.get();
             hunting.setId(hunting.getId());
+            hunting.setNumberOfFish(hunting.getNumberOfFish() + huntingDTO.getNumberOfFish());
             hunting = this.huntingRepository.save(hunting);
+            this.rankService.updateScore(huntingDTO.getMember_num(),huntingDTO.getCompetition_code(),huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
             return Optional.of(modelMapper.map(hunting, HuntingResponseDTO.class));
-        }else {
-            if (huntingDTO.getCompetition_code()!=null){
+        }
+        else {
+
+            Hunting hunting = modelMapper.map(huntingDTO,Hunting.class);
+            if (huntingDTO.getCompetition_code() != null) {
                 hunting.setCompetition(
                         this.competitionRepository.findById(huntingDTO.getCompetition_code()).get()
                 );
             }
-            if (huntingDTO.getMember_num()>0){
+            if (huntingDTO.getMember_num() > 0) {
                 hunting.setMember(
                         this.memberRepository.findById(huntingDTO.getMember_num()).get()
                 );
             }
-            if (huntingDTO.getFish_name()!=null){
-                this.fishRepository.findByName(huntingDTO.getFish_name()).get();
+
+            if (huntingDTO.getFish_name() != null) {
+
+               hunting.setFish(
+                       this.fishRepository.findByName(huntingDTO.getFish_name()).get()
+               );
             }
 
-          hunting = this.huntingRepository.save(hunting);
+            hunting.setNumberOfFish(huntingDTO.getNumberOfFish());
+            hunting = this.huntingRepository.save(hunting);
+            this.rankService.updateScore(huntingDTO.getMember_num(),huntingDTO.getCompetition_code(), huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
 
-            return Optional.of(modelMapper.map(hunting,HuntingResponseDTO.class));
+                return Optional.of(modelMapper.map(hunting, HuntingResponseDTO.class));
 
         }
 
     }
+
+
+
 
     @Override
     public boolean deleteService(Long Id) {

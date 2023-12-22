@@ -54,4 +54,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Rank> ranks;
+
+
+
+    public Member(String john, String doe, LocalDate now, String us, IdentityDocType identityDocType, String ab123456) {
+    }
 }

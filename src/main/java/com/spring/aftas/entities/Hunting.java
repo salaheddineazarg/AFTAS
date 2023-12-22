@@ -33,4 +33,7 @@ public class Hunting {
     @NotNull(message = "Member must be provided")
     @ManyToOne
     private Member member;
+
+    public Hunting(int i, Fish fish1, Member m1, Competition competition) {
+    }
 }

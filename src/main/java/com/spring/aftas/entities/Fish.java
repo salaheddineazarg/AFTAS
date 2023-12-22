@@ -31,4 +31,7 @@ public class Fish {
 
     @OneToMany(mappedBy = "fish",fetch = FetchType.LAZY,cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Hunting> huntings;
+
+    public Fish(String trout, double v, Level level1) {
+    }
 }

@@ -37,4 +37,6 @@ public class Rank {
     @NotNull(message = "Member must be provided")
     private Member member;
 
+    public Rank(RankID rankId, int i, int i1) {
+    }
 }

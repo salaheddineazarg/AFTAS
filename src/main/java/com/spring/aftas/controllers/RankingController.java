@@ -78,5 +78,11 @@ public class RankingController {
         return new ResponseEntity<>(this.rankService.getByCompetition(code),HttpStatus.OK);
     }
 
+    @GetMapping("podium/{code}")
+    public ResponseEntity<List<RankResponseDTO>> getPodium(@PathVariable String code){
+
+        return new ResponseEntity<>(this.rankService.calRanking(code),HttpStatus.OK);
+    }
+
 
 }
