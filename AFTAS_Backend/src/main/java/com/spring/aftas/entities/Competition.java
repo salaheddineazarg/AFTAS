@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Competition {
+
     @Id
     @NotBlank(message = "Code must not be blank")
     @Pattern(regexp = "^.{3}-\\d{6}$")

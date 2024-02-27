@@ -4,6 +4,7 @@ package com.spring.aftas.controllers;
 import com.spring.aftas.dto.competition.CompetitionDTO;
 import com.spring.aftas.dto.competition.CompetitionResponseDTO;
 import com.spring.aftas.services.Impl.CompetitionService;
+import com.spring.aftas.services.interfaces.ICompetitionService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.domain.Page;
@@ -19,7 +20,7 @@ import java.util.List;
 public class CompetitionController {
 
 
-    private final CompetitionService competitionService;
+    private final ICompetitionService competitionService;
 
 
     public CompetitionController(CompetitionService competitionService){

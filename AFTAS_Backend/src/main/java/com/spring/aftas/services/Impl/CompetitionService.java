@@ -47,13 +47,19 @@ public class CompetitionService implements ICompetitionService {
     public Optional<CompetitionResponseDTO> saveService(CompetitionDTO competitionDTO) {
         if (this.competitionRepository.existsCompetitionByDate(competitionDTO.getDate())){
 
-          return Optional.ofNullable(null);
+          return Optional.empty();
         }else {
+            if (competitionDTO.getStartTime().compareTo(competitionDTO.getEndTime()) >0){
+
+                return Optional.empty();
+            }else {
+
             Competition competition = modelMapper.map(competitionDTO,Competition.class);
 
             competition = this.competitionRepository.save(competition);
 
             return Optional.of(modelMapper.map(competition,CompetitionResponseDTO.class));
+            }
         }
     }
 

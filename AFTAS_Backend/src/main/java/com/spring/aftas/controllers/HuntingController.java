@@ -4,6 +4,7 @@ package com.spring.aftas.controllers;
 import com.spring.aftas.dto.hunting.HuntingDTO;
 import com.spring.aftas.dto.hunting.HuntingResponseDTO;
 import com.spring.aftas.services.Impl.HuntingService;
+import com.spring.aftas.services.interfaces.IHuntingService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 public class HuntingController {
 
 
-    private  final HuntingService huntingService;
+    private  final IHuntingService huntingService;
 
     @Autowired
     public HuntingController(HuntingService huntingService){

@@ -3,6 +3,7 @@ package com.spring.aftas.controllers;
 
 import com.spring.aftas.dto.level.LevelDTO;
 import com.spring.aftas.services.Impl.LevelService;
+import com.spring.aftas.services.interfaces.ILevelService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.List;
 public class LevelController {
 
 
-    private final LevelService levelService;
+    private final ILevelService levelService;
 
 
     public LevelController(LevelService levelService){

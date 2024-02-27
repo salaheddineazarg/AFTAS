@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-
+import java.util.UUID;
 
 
 @NoArgsConstructor
@@ -23,7 +23,7 @@ public class RankID implements Serializable {
 
 
     @Column(nullable = false)
-    public long member_num;
+    public UUID user_num;
 
     @Column(nullable = false)
     public String competition_code;

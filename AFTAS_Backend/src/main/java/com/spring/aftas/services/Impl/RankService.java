@@ -6,10 +6,9 @@ import com.spring.aftas.dto.rank.RankResponseDTO;
 import com.spring.aftas.embedding.RankID;
 import com.spring.aftas.entities.Fish;
 import com.spring.aftas.entities.Rank;
-import com.spring.aftas.repositories.CompetitionRepository;
-import com.spring.aftas.repositories.FishRepository;
-import com.spring.aftas.repositories.MemberRepository;
-import com.spring.aftas.repositories.RankRepository;
+import com.spring.aftas.entities.User;
+import com.spring.aftas.enumuration.Role;
+import com.spring.aftas.repositories.*;
 import com.spring.aftas.services.interfaces.IRankService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RankService implements IRankService {
@@ -25,13 +25,13 @@ public class RankService implements IRankService {
     private final ModelMapper modelMapper;
     private final RankRepository rankRepository;
     private final CompetitionRepository competitionRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private final FishRepository fishRepository;
 
     private RankService(ModelMapper modelMapper,
                         RankRepository rankRepository,
                         CompetitionRepository  competitionRepository,
-                        MemberRepository memberRepository,
+                        UserRepository userRepository,
                         FishRepository fishRepository
 
 
@@ -39,7 +39,7 @@ public class RankService implements IRankService {
         this.rankRepository = rankRepository;
         this.modelMapper = modelMapper;
         this.competitionRepository = competitionRepository;
-        this.memberRepository = memberRepository;
+        this.userRepository =userRepository ;
         this.fishRepository = fishRepository;
     }
 
@@ -52,21 +52,24 @@ public class RankService implements IRankService {
     @Override
     public Optional<RankResponseDTO> saveService(RankDTO rankDTO) {
         Rank rank = modelMapper.map(rankDTO, Rank.class);
+        User user = userRepository.findById(rankDTO.getUser_num()).get();
         if (rankDTO.getCompetition_code() != null) {
             rank.setCompetition(
                     this.competitionRepository.findById(rankDTO.getCompetition_code()).get()
             );
         }
 
-        if (rankDTO.getMember_num() > 0) {
-            rank.setMember(
-                    this.memberRepository.findById(rankDTO.getMember_num()).get()
+        if (rankDTO.getUser_num() !=null ) {
+
+            if (user.getRole() == Role.Member)
+            rank.setUser(
+                    this.userRepository.findById(rankDTO.getUser_num()).get()
 
             );
         }
          RankID rankID = new RankID();
         rankID.setCompetition_code(rankDTO.getCompetition_code());
-        rankID.setMember_num(rankDTO.getMember_num());
+        rankID.setUser_num(user.getNum());
         rank.setRankID(rankID);
         long count = this.rankRepository.countByCompetition_Code(rankDTO.getCompetition_code());
 
@@ -79,10 +82,10 @@ public class RankService implements IRankService {
 
 
     @Override
-    public boolean deleteService(String code,long num) {
+    public boolean deleteService(String code, UUID num) {
        RankID rankID = new RankID();
        rankID.setCompetition_code(code);
-           rankID.setMember_num(num);
+           rankID.setUser_num(num);
         System.out.println(rankID);
        if (this.rankRepository.existsById(rankID)){
            this.rankRepository.deleteById(rankID);
@@ -91,10 +94,10 @@ public class RankService implements IRankService {
         return false;
     }
     @Override
-    public Optional<RankResponseDTO> updateService(RankDTO rankDTO, String code, long num) {
+    public Optional<RankResponseDTO> updateService(RankDTO rankDTO, String code, UUID num) {
         RankID rankID = new RankID();
         rankID.setCompetition_code(code);
-        rankID.setMember_num(num);
+        rankID.setUser_num(num);
         if (this.rankRepository.existsById(rankID)){
             Rank rank = modelMapper.map(rankDTO, Rank.class);
             if (rankDTO.getCompetition_code() != null) {
@@ -103,9 +106,9 @@ public class RankService implements IRankService {
                 );
             }
 
-            if (rankDTO.getMember_num() > 0) {
-                rank.setMember(
-                        this.memberRepository.findById(rankDTO.getMember_num()).get()
+            if (rankDTO.getUser_num()!= null) {
+                rank.setUser(
+                        this.userRepository.findById(rankDTO.getUser_num()).get()
                 );
             }
 
@@ -116,10 +119,10 @@ public class RankService implements IRankService {
         return Optional.empty();
     }
     @Override
-    public Optional<RankResponseDTO> findByIdService(String code,long num) {
+    public Optional<RankResponseDTO> findByIdService(String code,UUID num) {
         RankID rankID = new RankID();
         rankID.setCompetition_code(code);
-        rankID.setMember_num(num);
+        rankID.setUser_num(num);
         if (this.rankRepository.existsById(rankID)){
 
             Optional<Rank> rankOptional =this.rankRepository.findById(rankID);
@@ -139,10 +142,10 @@ public class RankService implements IRankService {
 
 
     @Override
-    public boolean updateScore(long num,String code,String name,int numberOfFish){
+    public boolean updateScore(UUID num,String code,String name,int numberOfFish){
         Optional<Fish> fishOptional = this.fishRepository.findByName(name);
         Fish fish = fishOptional.get();
-        Optional<Rank> rankOptional = this.rankRepository.findRankByMember_NumAndCompetition_Code(num,code);
+        Optional<Rank> rankOptional = this.rankRepository.findRankByUser_NumAndCompetition_Code(num,code);
         Rank rank = rankOptional.get();
 
         if (fish != null && rank != null) {

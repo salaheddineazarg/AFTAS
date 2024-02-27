@@ -3,7 +3,7 @@ import {RankRxService} from "../../../services/rank-service/rankRx-service";
 import {RankService} from "../../../services/rank-service/rank.service";
 import {ActivatedRoute} from "@angular/router";
 import {switchMap} from "rxjs";
-import {MemberModel} from "../../../models/member-model";
+import {UserModel} from "../../../models/user-model";
 import {RankModel} from "../../../models/rank/rank-model";
 import {RankRequestModel} from "../../../models/rank/rankRequest-model";
 import {CompetitionRxService} from "../../../services/competition-service/competitionRx.service";
@@ -17,7 +17,7 @@ import {CompetitionService} from "../../../services/competition-service/competit
 })
 export class RankComponent implements OnInit{
 
-  members:MemberModel[];
+  members:UserModel[];
   code:string="";
   colors:string[]=[];
   huntModal=false;

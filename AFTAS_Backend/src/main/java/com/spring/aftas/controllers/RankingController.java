@@ -6,6 +6,7 @@ import com.spring.aftas.dto.rank.RankResponseDTO;
 import com.spring.aftas.embedding.RankID;
 import com.spring.aftas.entities.Rank;
 import com.spring.aftas.services.Impl.RankService;
+import com.spring.aftas.services.interfaces.IRankService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/ranking")
 public class RankingController {
 
 
-    private final RankService rankService;
+    private final IRankService rankService;
 
 
 
@@ -47,7 +49,7 @@ public class RankingController {
 
 
     @PutMapping
-    public ResponseEntity<RankResponseDTO> update(@Valid @RequestBody RankDTO rankDTO,@RequestParam String code,@RequestParam long num){
+    public ResponseEntity<RankResponseDTO> update(@Valid @RequestBody RankDTO rankDTO,@RequestParam String code,@RequestParam UUID num){
 
         return this.rankService.updateService(rankDTO,code,num)
                 .map(rank-> new ResponseEntity<>(rank,HttpStatus.CREATED))
@@ -56,7 +58,7 @@ public class RankingController {
 
 
     @DeleteMapping
-    public ResponseEntity<String> delete(@RequestParam String code,@RequestParam long num){
+    public ResponseEntity<String> delete(@RequestParam String code,@RequestParam UUID num){
         if (this.rankService.deleteService(code,num)){
             return new ResponseEntity<>("Ranking is deleted successfully",HttpStatus.OK);
         }
@@ -65,7 +67,7 @@ public class RankingController {
 
 
     @GetMapping("get")
-    public ResponseEntity<RankResponseDTO> getById(@RequestParam String code,@RequestParam long num){
+    public ResponseEntity<RankResponseDTO> getById(@RequestParam String code,@RequestParam UUID num){
 
         return this.rankService.findByIdService(code,num)
                 .map(rankResponseDTO -> new ResponseEntity<>(rankResponseDTO,HttpStatus.FOUND))

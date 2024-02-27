@@ -5,6 +5,8 @@ import com.spring.aftas.dto.hunting.HuntingResponseDTO;
 import com.spring.aftas.entities.Fish;
 import com.spring.aftas.entities.Hunting;
 import com.spring.aftas.entities.Rank;
+import com.spring.aftas.entities.User;
+import com.spring.aftas.enumuration.Role;
 import com.spring.aftas.repositories.*;
 import com.spring.aftas.services.interfaces.IHuntingService;
 import org.modelmapper.ModelMapper;
@@ -23,7 +25,7 @@ public class HuntingService implements IHuntingService {
     private final ModelMapper modelMapper;
     private final HuntingRepository huntingRepository;
     private final CompetitionRepository competitionRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
     private  final FishRepository fishRepository;
     private final RankService rankService;
 
@@ -31,7 +33,7 @@ public class HuntingService implements IHuntingService {
     public HuntingService(ModelMapper modelMapper,
                           HuntingRepository huntingRepository,
                           CompetitionRepository competitionRepository,
-                          MemberRepository memberRepository,
+                          UserRepository userRepository,
                           FishRepository fishRepository,
                           RankService rankService
     ){
@@ -39,7 +41,7 @@ public class HuntingService implements IHuntingService {
         this.huntingRepository = huntingRepository;
         this.modelMapper= modelMapper;
         this.competitionRepository =competitionRepository;
-        this.memberRepository=memberRepository;
+        this.userRepository=userRepository;
         this.fishRepository =fishRepository;
         this.rankService = rankService;
     }
@@ -55,9 +57,9 @@ public class HuntingService implements IHuntingService {
 
 
         Optional<Hunting> huntingOptional = this.huntingRepository
-                .findHuntingByCompetition_CodeAndMember_NumAndFish_Name(
+                .findHuntingByCompetition_CodeAndUser_NumAndFish_Name(
                         huntingDTO.getCompetition_code(),
-                        huntingDTO.getMember_num(),
+                        huntingDTO.getUser_num(),
                         huntingDTO.getFish_name()
                 );
         if (huntingOptional.isPresent()) {
@@ -65,7 +67,7 @@ public class HuntingService implements IHuntingService {
             hunting.setId(hunting.getId());
             hunting.setNumberOfFish(hunting.getNumberOfFish() + huntingDTO.getNumberOfFish());
             hunting = this.huntingRepository.save(hunting);
-            this.rankService.updateScore(huntingDTO.getMember_num(),huntingDTO.getCompetition_code(),huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
+            this.rankService.updateScore(huntingDTO.getUser_num(),huntingDTO.getCompetition_code(),huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
             return Optional.of(modelMapper.map(hunting, HuntingResponseDTO.class));
         }
         else {
@@ -76,10 +78,14 @@ public class HuntingService implements IHuntingService {
                         this.competitionRepository.findById(huntingDTO.getCompetition_code()).get()
                 );
             }
-            if (huntingDTO.getMember_num() > 0) {
-                hunting.setMember(
-                        this.memberRepository.findById(huntingDTO.getMember_num()).get()
-                );
+            if (huntingDTO.getUser_num() != null ) {
+                User user = userRepository.findById(huntingDTO.getUser_num()).get();
+                if (user.getRole() == Role.Member) {
+                    hunting.setUser(
+                            user
+                    );
+                }
+
             }
 
             if (huntingDTO.getFish_name() != null) {
@@ -91,7 +97,7 @@ public class HuntingService implements IHuntingService {
 
             hunting.setNumberOfFish(huntingDTO.getNumberOfFish());
             hunting = this.huntingRepository.save(hunting);
-            this.rankService.updateScore(huntingDTO.getMember_num(),huntingDTO.getCompetition_code(), huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
+            this.rankService.updateScore(huntingDTO.getUser_num(),huntingDTO.getCompetition_code(), huntingDTO.getFish_name(),huntingDTO.getNumberOfFish());
 
                 return Optional.of(modelMapper.map(hunting, HuntingResponseDTO.class));
 

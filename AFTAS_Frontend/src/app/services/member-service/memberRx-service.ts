@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {MemberModel} from "../../models/member-model";
+import {UserModel} from "../../models/user-model";
 
 
 @Injectable({
@@ -9,18 +9,18 @@ import {MemberModel} from "../../models/member-model";
 
 export class MemberRxService{
 
-  private memberSubject :Subject<MemberModel[]> = new Subject<MemberModel[]>();
-  private memberOneSubject:Subject<MemberModel>= new Subject<MemberModel>()
+  private memberSubject :Subject<UserModel[]> = new Subject<UserModel[]>();
+  private memberOneSubject:Subject<UserModel>= new Subject<UserModel>()
   members$=this.memberSubject.asObservable();
   member$=this.memberOneSubject.asObservable()
 
 
 
-  getMemmbers(members:MemberModel[]){
+  getMemmbers(members:UserModel[]){
     this.memberSubject.next(members);
   }
 
-  setOneMember(member:MemberModel){
+  setOneMember(member:UserModel){
     this.memberOneSubject.next(member);
   }
 }

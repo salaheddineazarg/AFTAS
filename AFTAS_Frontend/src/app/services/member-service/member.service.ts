@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {MemberModel} from "../../models/member-model";
+import {UserModel} from "../../models/user-model";
 import {MemberRxService} from "./memberRx-service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
-  private baseUrl="http://localhost:8080/api/member"
+  private baseUrl="http://localhost:8080/auth/members"
   constructor(private  http :HttpClient,private memberServiceRx :MemberRxService) { }
 
 
      getMembers() {
-     return this.http.get<MemberModel[]>(this.baseUrl).subscribe(
+     return this.http.get<UserModel[]>(this.baseUrl).subscribe(
        data =>{
         this.memberServiceRx.getMemmbers(data);
        }
@@ -22,7 +22,7 @@ export class MemberService {
 
 
      searchMember(name:string){
-      return this.http.get<MemberModel[]>(this.baseUrl+`/search?keyword=${name}`);
+      return this.http.get<UserModel[]>(this.baseUrl+`/search?keyword=${name}`);
      }
 
 
@@ -34,8 +34,8 @@ export class MemberService {
       return this.http.get<any>("https://restcountries.com/v3.1/all");
      }
 
-     saveMember(member:MemberModel){
-      return this.http.post<MemberModel>(this.baseUrl,member);
+     saveMember(member:UserModel){
+      return this.http.post<UserModel>(this.baseUrl,member);
      }
 
 }

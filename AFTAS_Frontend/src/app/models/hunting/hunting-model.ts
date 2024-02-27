@@ -1,5 +1,5 @@
 import {CompetitionModel} from "../competition/competition-model";
-import {MemberModel} from "../member-model";
+import {UserModel} from "../user-model";
 import {FishModel} from "../fish/fish-model";
 
 export interface HuntingModel{
@@ -7,5 +7,5 @@ export interface HuntingModel{
   numberOfFish:number,
   competition:CompetitionModel,
   fish:FishModel
-  member:MemberModel
+  member:UserModel
 }

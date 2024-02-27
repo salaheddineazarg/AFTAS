@@ -1,9 +1,9 @@
 import {CompetitionModel} from "../competition/competition-model";
-import {MemberModel} from "../member-model";
+import {UserModel} from "../user-model";
 
 export interface RankModel{
   competition:CompetitionModel,
-  member:MemberModel,
+  member:UserModel,
   score?:number,
   rank?:number
 }

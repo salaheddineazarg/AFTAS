@@ -8,7 +8,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
+
 
 @Data
 @AllArgsConstructor
@@ -33,9 +33,9 @@ public class Rank {
     private Competition competition;
 
     @ManyToOne
-    @MapsId("member_num")
-    @NotNull(message = "Member must be provided")
-    private Member member;
+    @MapsId("user_num")
+    @NotNull(message = "User must be provided")
+    private User user;
 
 
 

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MemberService} from "../../../services/member-service/member.service";
 import {MemberRxService} from "../../../services/member-service/memberRx-service";
-import {MemberModel} from "../../../models/member-model";
+import {UserModel} from "../../../models/user-model";
 import {RankRxService} from "../../../services/rank-service/rankRx-service";
 import {RankModel} from "../../../models/rank/rank-model";
 
@@ -13,7 +13,7 @@ import {RankModel} from "../../../models/rank/rank-model";
 export class MemberComponent implements OnInit{
   @Output() num:EventEmitter<number> = new EventEmitter<number>();
   @Output() saveRankFromMember:EventEmitter<Function> =new EventEmitter<Function>();
-  members:MemberModel[]=[];
+  members:UserModel[]=[];
   ranks:number[]=[];
   colors:string[]=[];
   imageUrl=""

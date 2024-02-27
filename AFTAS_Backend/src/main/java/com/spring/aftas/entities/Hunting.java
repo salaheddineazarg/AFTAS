@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,8 +16,8 @@ import lombok.NoArgsConstructor;
 public class Hunting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Min(value = 1, message = "Number of fish must be at least 1")
     @Positive(message = "Number of fish must be a positive number")
@@ -31,9 +33,8 @@ public class Hunting {
     private Competition competition;
 
     @NotNull(message = "Member must be provided")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Member member;
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private User user;
 
-    public Hunting(int i, Fish fish1, Member m1, Competition competition) {
-    }
+
 }

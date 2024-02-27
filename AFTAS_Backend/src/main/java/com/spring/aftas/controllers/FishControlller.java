@@ -4,6 +4,7 @@ package com.spring.aftas.controllers;
 import com.spring.aftas.dto.fish.FishDTO;
 import com.spring.aftas.dto.fish.FishResponseDTO;
 import com.spring.aftas.services.Impl.FishService;
+import com.spring.aftas.services.interfaces.IFishService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/fish")
 public class FishControlller {
-    private final FishService fishService;
+    private final IFishService fishService;
 
     public FishControlller(FishService fishService){
         this.fishService = fishService;

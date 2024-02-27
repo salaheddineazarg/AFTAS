@@ -1,0 +1,99 @@
+<main class="h-screen w-full flex bg-center bg-content bg-[url('https://images.pexels.com/photos/2131967/pexels-photo-2131967.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')] justify-center items-center p-10">
+  <!-- component -->
+
+    <div class="max-w-md w-full space-y-8 p-5 bg-white rounded-xl shadow-lg z-10">
+
+      <form [formGroup]="formSignup" (ngSubmit)="signup()" class="grid  gap-8 grid-cols-1">
+        <div class="flex flex-col ">
+          <div class="mt-5">
+            <div class="form">
+              <div class="md:flex flex-row md:space-x-4 w-full text-xs">
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Name <abbr title="required">*</abbr></label>
+                  <input formControlName="firstName" placeholder=" Name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" name="integration[shop_name]">
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Family Name <abbr title="required">*</abbr></label>
+                  <input formControlName="lastName" placeholder="Family Name" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" name="integration[shop_name]" >
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+              </div>
+              <div class="mb-3 space-y-2 w-full text-xs">
+                <label class=" font-semibold text-gray-600 py-2">Email</label>
+                <div class="flex flex-wrap items-stretch w-full mb-4 relative">
+                  <div class="flex">
+                  </div>
+                  <input formControlName="email" type="text" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border  h-10 border-grey-light rounded-lg  px-3 relative focus:border-blue focus:shadow" placeholder="Email">
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="mb-3 space-y-2 w-[60%] text-xs">
+                  <label class=" font-semibold text-gray-600 py-2">Password</label>
+                  <div class="flex flex-wrap items-stretch w-full mb-4 relative">
+                    <div class="flex">
+                    </div>
+                    <input formControlName="password" type="password" class="flex-shrink flex-grow flex-auto leading-normal w-px flex-1 border  h-10 border-grey-light rounded-lg  px-3 relative focus:border-blue focus:shadow" placeholder="********">
+                  </div>
+                </div>
+                <div class="mb-3 space-y-2 w-[40%] text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Role <abbr title="required">*</abbr></label>
+                  <select formControlName="role"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" >
+                    <option value="Member">Member</option>
+                    <option value="Jury">Jury</option>
+                  </select>
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+              </div>
+
+
+              <div class="md:flex flex-row md:space-x-4 w-full text-xs">
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Accession Date <abbr title="required">*</abbr></label>
+                  <input formControlName="accessionDate" placeholder="Accession Date" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="Date">
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Nationality <abbr title="required">*</abbr></label>
+                  <select formControlName="country"  class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" >
+                    <option selected value="">
+                     Select Country
+                    </option>
+                    <option [value]="country" *ngFor="let country of countries" >
+                      {{country}}
+                    </option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="md:flex flex-row md:space-x-4 w-full text-xs">
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Identity Document Type <abbr title="required">*</abbr></label>
+                  <select formControlName="identityDoc" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required"  name="integration[shop_name]">
+
+                    <option selected value="Cin">Cin</option>
+                    <option value="Passport">Passport</option>
+                    <option value="Carte_Residence">Carte Residence</option>
+                  </select>
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+                <div class="mb-3 space-y-2 w-full text-xs">
+                  <label class="font-semibold text-gray-600 py-2">Identity Number <abbr title="required">*</abbr></label>
+                  <input formControlName="identityNumber" placeholder="Identity Number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" name="integration[shop_name]" >
+                  <p class="text-red text-xs hidden">Please fill out this field.</p>
+                </div>
+              </div>
+
+              <div class="mt-5 text-right md:space-x-3 md:block ">
+                <button type="submit" class="mb-2 md:mb-0 bg-indigo-600 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-indigo-900">Sign up</button>
+                <p class="text-sm font-light text-gray-500 float-left dark:text-gray-400">
+                  Do you have an account ? <a routerLink="/login"  class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign in</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+</main>
